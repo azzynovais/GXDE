@@ -1,23 +1,8 @@
-name: Building GXDE Testing Package
+name: Building Program
 run-name: Building ${{ github.repository }}
 
 on:
   workflow_dispatch:
-  workflow_call:    
-    secrets:
-      PASSWD:
-        required: true
-      USERS:
-        required: true
-      HOST: 
-        required: true
-      UPATH: 
-        required: true
-      UPROGRAM: 
-        required: true
-      UPORT: 
-        required: true
-  .
   pull_request_target:
     types: [opened, synchronize, reopened]
     branches:
@@ -27,25 +12,13 @@ env:
   REPOSITORY: https://github.com/GXDE-OS/GXDE  
   BOTTLEPATH: system-bottle
 
-jobs:  
-  call-zhuangzhuang:    uses: GXDE-OS/GXDE/.github/workflows/building-deb-zhuangzhuang.yml@master
-    secrets:
-      # Em vez de 'inherit' puro (que falha em forks), passamos explicitamente.
-      # Se vier de um 'workflow_call', ele usa o contexto de segredos recebidos.
-      # Se vier de um disparo interno, ele pega os segredos do repositório.
-      PASSWD: ${{ secrets.PASSWD }}
-      USERS: ${{ secrets.USERS }}
-      HOST: ${{ secrets.HOST }}
-      UPATH: ${{ secrets.UPATH }}
-      UPROGRAM: ${{ secrets.UPROGRAM }}
-      UPORT: ${{ secrets.UPPORT }}
-    
-  call-hetao:
-    uses: GXDE-OS/GXDE/.github/workflows/building-deb-hetao.yml@master
+jobs:
+  call:
+    uses: azzynovais/GXDE/.github/workflows/building-deb.yml@master
     secrets:
       PASSWD: ${{ secrets.PASSWD }}
       USERS: ${{ secrets.USERS }}
       HOST: ${{ secrets.HOST }}
       UPATH: ${{ secrets.UPATH }}
       UPROGRAM: ${{ secrets.UPROGRAM }}
-      UPORT: ${{ secrets.UPPORT }}
+      UPORT: ${{ secrets.UPORT }}
