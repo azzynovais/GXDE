@@ -1,24 +1,40 @@
-name: Building Program
-run-name: Building ${{ github.repository }}
+name: GXDE Reusable Debian Builder
 
 on:
-  workflow_dispatch:
-  pull_request_target:
-    types: [opened, synchronize, reopened]
-    branches:
-      - master
-
-env:
-  REPOSITORY: https://github.com/GXDE-OS/GXDE  
-  BOTTLEPATH: system-bottle
+  workflow_call:
+    # Define os segredos que este workflow espera receber do workflow principal
+    secrets:
+      PASSWD:
+        required: true
+      USERS:
+        required: true
+      HOST:
+        required: true
+      UPATH:
+        required: true
+      UPROGRAM:
+        required: true
+      UPORT:
+        required: true
 
 jobs:
-  call:
-    uses: azzynovais/GXDE/.github/workflows/building-deb.yml@master
-    secrets:
-      PASSWD: ${{ secrets.PASSWD }}
-      USERS: ${{ secrets.USERS }}
-      HOST: ${{ secrets.HOST }}
-      UPATH: ${{ secrets.UPATH }}
-      UPROGRAM: ${{ secrets.UPROGRAM }}
-      UPORT: ${{ secrets.UPORT }}
+  build:
+    runs-on: ubuntu-latest # Ou a distro/runner que você já utiliza (ex: debian)
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      # =========================================================================
+      # COLE OS SEUS PASSOS (STEPS) ORIGINAIS DE BUILD ABAIXO DISTO
+      # =========================================================================
+      
+      - name: Exemplo de como usar os segredos recebidos
+        run: |
+          echo "Conectando ao servidor para o build do GXDE..."
+          # Aqui dentro você pode usar as variáveis normalmente:
+          # ${{ secrets.HOST }}
+          # ${{ secrets.USERS }}
+          # ${{ secrets.PASSWD }}
+          
+      # =========================================================================
